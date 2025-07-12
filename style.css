@@ -44,20 +44,37 @@ body {
   overflow-y: auto;
   background: #fafafa;
   white-space: pre-line;
+  display: flex;
+  flex-direction: column;
 }
 
 /* messages */
-.msg {
-  margin-bottom: 14px;
-  line-height: 1.5;
+.user-msg {
+  background: #e3f0ff;
+  color: #222;
+  padding: 12px 18px;
+  border-radius: 18px 18px 4px 18px;
+  margin-bottom: 12px;
+  max-width: 75%;
+  align-self: flex-end;
+  margin-left: auto;
+  margin-right: 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  font-size: 17px;
 }
 
-.msg.user {
-  color: #000;
-}
-
-.msg.ai {
-  color: #666666;
+.bot-msg {
+  background: #fff3e6;
+  color: #444;
+  padding: 12px 18px;
+  border-radius: 18px 18px 18px 4px;
+  margin-bottom: 12px;
+  max-width: 75%;
+  align-self: flex-start;
+  margin-left: 0;
+  margin-right: auto;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+  font-size: 17px;
 }
 
 /* input row */

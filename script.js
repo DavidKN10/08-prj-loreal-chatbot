@@ -9,7 +9,8 @@ let messages = [
     content: `You are a helpful assistant for L'Oreal that helps users discover
               and understand L'Oreal's extensive range of products-makeup, skincare,
               haircare, and fragrances-as well as provide personalized routines and
-              recommendations.` 
+              recommendations. If the user asks someting off topic, say that you can't
+              answer that.` 
   }
 ];
 
@@ -17,6 +18,22 @@ const workerURL = "https://wonderbot-worker.davidrs23178.workers.dev/";
 
 // Set initial message
 chatWindow.textContent = "👋 Hello! How can I help you today?";
+
+/* Function to render the conversation history */
+function renderMessages() {
+  // Start with an empty string
+  let html = "";
+  // Loop through all messages except the system message
+  for (let i = 1; i < messages.length; i++) {
+    const msg = messages[i];
+    if (msg.role === "user") {
+      html += `<div class="user-msg">${msg.content}</div>`;
+    } else if (msg.role === "assistant") {
+      html += `<div class="bot-msg">${msg.content}</div>`;
+    }
+  }
+  chatWindow.innerHTML = html;
+}
 
 /* Handle form submit */
 chatForm.addEventListener("submit", async (e) => {
@@ -31,8 +48,8 @@ chatForm.addEventListener("submit", async (e) => {
     content: userMessage
   });
 
-  // Show user's message in the chat window
-  chatWindow.innerHTML = `<div class="user-msg">${userMessage}</div>`;
+  // Render messages so far (including the new user message)
+  renderMessages();
 
   // Show loading message
   chatWindow.innerHTML += `<div class="bot-msg">Thinking...</div>`;
@@ -67,17 +84,16 @@ chatForm.addEventListener("submit", async (e) => {
       content: botReply
     });
 
-    // Show both user and bot messages in the chat window
-    chatWindow.innerHTML = `
-      <div class="user-msg">${userMessage}</div>
-      <div class="bot-msg">${botReply}</div>
-    `;
+    // Render the updated conversation history
+    renderMessages();
   } catch (error) {
-    // Show error message if something goes wrong
-    chatWindow.innerHTML = `
-      <div class="user-msg">${userMessage}</div>
-      <div class="bot-msg">Sorry, there was an error. Please try again.</div>
-    `;
+    // Add error message to messages array
+    messages.push({
+      role: "assistant",
+      content: "Sorry, there was an error. Please try again."
+    });
+    // Render the updated conversation history
+    renderMessages();
   }
 
   // Clear the input box for the next message

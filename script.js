@@ -3,6 +3,7 @@ const chatForm = document.getElementById("chatForm");
 const userInput = document.getElementById("userInput");
 const chatWindow = document.getElementById("chatWindow");
 
+// keeps conversation history
 let messages = [
   {
     role: "system", 
@@ -21,9 +22,8 @@ chatWindow.textContent = "👋 Hello! How can I help you today?";
 
 /* Function to render the conversation history */
 function renderMessages() {
-  // Start with an empty string
   let html = "";
-  // Loop through all messages except the system message
+  
   for (let i = 1; i < messages.length; i++) {
     const msg = messages[i];
     if (msg.role === "user") {
@@ -39,10 +39,8 @@ function renderMessages() {
 chatForm.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  // Get the user's message from the input box
   const userMessage = userInput.value;
 
-  // Add user's message to messages array
   messages.push({
     role: "user",
     content: userMessage
@@ -56,7 +54,7 @@ chatForm.addEventListener("submit", async (e) => {
 
   // Prepare the request body for the API
   const body = {
-    model: "gpt-4o", // Use OpenAI's gpt-4o model
+    model: "gpt-4o", 
     messages: messages
   };
 
@@ -70,7 +68,6 @@ chatForm.addEventListener("submit", async (e) => {
       body: JSON.stringify(body)
     });
 
-    // Parse the response as JSON
     const data = await response.json();
 
     // Get the assistant's reply
@@ -78,13 +75,11 @@ chatForm.addEventListener("submit", async (e) => {
       ? data.choices[0].message.content
       : "Sorry, I couldn't get a response.";
 
-    // Add assistant's reply to messages array
     messages.push({
       role: "assistant",
       content: botReply
     });
 
-    // Render the updated conversation history
     renderMessages();
   } catch (error) {
     // Add error message to messages array
@@ -92,7 +87,7 @@ chatForm.addEventListener("submit", async (e) => {
       role: "assistant",
       content: "Sorry, there was an error. Please try again."
     });
-    // Render the updated conversation history
+    
     renderMessages();
   }
 

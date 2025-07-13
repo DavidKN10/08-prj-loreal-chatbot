@@ -22,12 +22,26 @@ body {
 .site-header {
   text-align: center;
   padding-top: 50px;
+  padding-bottom: 24px;
+  background: #111; /* L'Oréal black */
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  position: relative;
+}
+
+.site-header img {
+  filter: brightness(0) invert(1); /* Make logo white on black background if needed */
+  margin-bottom: 12px;
 }
 
 .site-title {
   font-size: 22px;
   font-weight: 500;
   margin-bottom: 10px;
+  color: #fff; /* White text for contrast */
+  letter-spacing: 2px;
+  text-transform: uppercase;
 }
 
 /* chat window */
